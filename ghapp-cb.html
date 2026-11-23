@@ -1,0 +1,17 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>完成创建…</title></head>
+<body style="font-family:-apple-system;padding:24px;background:#111;color:#eee">
+<h3 id="s">正在完成创建…</h3><div id="out"></div>
+<script>
+var code = new URLSearchParams(location.search).get('code')||'';
+fetch('https://efvtmwcyoskqqivworcg.supabase.co/functions/v1/tb-api/exch?code='+encodeURIComponent(code)).then(function(r){return r.json();}).then(function(j){
+ if(j&&j.ok){
+  document.getElementById('s').textContent='\u2705 GitHub App 创建成功';
+  document.getElementById('out').innerHTML='<p>'+(j.name||'ThemeBox-CI')+' (id='+j.id+')</p><p><b>下一步：点下面安装（选 ThemeBox-DIY 账户 + All repositories）</b></p><p><a style="font-size:22px;color:#7cf" href="https://github.com/apps/'+j.slug+'/installations/new">\ud83d\udc49 点这里安装</a></p>';
+ } else {
+  document.getElementById('s').textContent='\u274c 完成失败';
+  document.getElementById('out').textContent=JSON.stringify(j||{}).slice(0,300);
+ }
+}).catch(function(e){document.getElementById('s').textContent='\u274c 网络错误';document.getElementById('out').textContent=String(e).slice(0,200);});
+</script>
+</body></html>
